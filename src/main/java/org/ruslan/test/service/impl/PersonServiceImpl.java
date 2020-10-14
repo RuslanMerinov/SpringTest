@@ -1,7 +1,6 @@
 package org.ruslan.test.service.impl;
 
 import org.ruslan.test.dao.PersonDao;
-import org.ruslan.test.dao.UserNotFoundException;
 import org.ruslan.test.dao.model.Person;
 import org.ruslan.test.service.model.PersonDTO;
 import org.ruslan.test.service.PersonService;
@@ -24,8 +23,8 @@ public class PersonServiceImpl implements PersonService {
 
 
     @Override
-    public int addPerson(PersonDTO personDTO) {
-        return personDao.insertPerson(convertDTO(personDTO));
+    public boolean addPerson(PersonDTO personDTO) {
+        return personDao.addPerson(convertDTO(personDTO));
     }
 
     @Override
@@ -39,7 +38,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public boolean deletePersonById (UUID id) throws UserNotFoundException {
+    public boolean deletePersonById (UUID id) {
         return personDao.deletePersonById(id);
     }
 

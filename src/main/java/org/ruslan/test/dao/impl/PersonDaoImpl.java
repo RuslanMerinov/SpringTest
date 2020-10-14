@@ -1,9 +1,7 @@
 package org.ruslan.test.dao.impl;
 
 import org.ruslan.test.dao.PersonDao;
-import org.ruslan.test.dao.UserNotFoundException;
 import org.ruslan.test.dao.model.Person;
-import org.ruslan.test.service.model.PersonDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -14,9 +12,8 @@ public class PersonDaoImpl implements PersonDao {
     private final List<Person> DB = new ArrayList<>();
 
     @Override
-    public int insertPerson(Person person) {
-        DB.add(new Person(UUID.randomUUID(), person.getName()));
-        return 0;
+    public boolean addPerson(Person person) {
+        return DB.add(new Person(UUID.randomUUID(), person.getName()));
     }
 
     @Override
@@ -45,15 +42,13 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public boolean deletePersonById(UUID id) throws UserNotFoundException {
-
-        Optional<Person> personMaybe = Optional.of(selectPersonById(id)
-                .orElseThrow(() -> new UserNotFoundException(id.toString())));
-        DB.remove(personMaybe.get());
-        return true;
-
-
-
+    public boolean deletePersonById(UUID id) {
+        if (selectPersonById(id).isPresent()) {
+            DB.remove(selectPersonById(id).get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

@@ -43,7 +43,7 @@ public class PersonController {
     }
 
     @PutMapping(path = "/{id}")
-    public int updatePersonById(@PathVariable("id") UUID id, @RequestBody @Valid PersonDTO personDTO) {
+    public boolean updatePersonById(@PathVariable("id") UUID id, @RequestBody @Valid PersonDTO personDTO) {
         return personService.updatePersonById(id, personDTO);
     }
 

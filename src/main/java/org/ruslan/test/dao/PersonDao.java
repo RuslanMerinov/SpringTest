@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface PersonDao {
 
-    int insertPerson (Person person);
+    boolean addPerson (Person person);
 
     List<Person> showList();
 
@@ -17,5 +17,5 @@ public interface PersonDao {
 
     boolean updatePersonById(UUID id, Person person);
 
-    boolean deletePersonById(UUID id) throws UserNotFoundException;
+    boolean deletePersonById(UUID id);
 }
