@@ -1,5 +1,6 @@
 package org.ruslan.test.api;
 
+import org.ruslan.test.dao.model.Person;
 import org.ruslan.test.service.model.PersonDTO;
 import org.ruslan.test.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("api/v1/person")
 public class PersonController {
-// hello from git
+
     private final PersonService personService;
 
     @Autowired
@@ -26,12 +27,12 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<PersonDTO> showList() {
+    public List<Person> showList() {
         return personService.showList();
     }
 
     @GetMapping(path = "/{id}")
-    public PersonDTO selectPersonById(@PathVariable("id") UUID id) {
+    public Person selectPersonById(@PathVariable("id") UUID id) {
         return personService.selectPersonById(id)
                 .orElse(null);
     }

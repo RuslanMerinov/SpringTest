@@ -1,6 +1,8 @@
 package org.ruslan.test.service.impl;
 
 import org.ruslan.test.dao.PersonDao;
+import org.ruslan.test.dao.UserNotFoundException;
+import org.ruslan.test.dao.model.Person;
 import org.ruslan.test.service.model.PersonDTO;
 import org.ruslan.test.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +22,34 @@ public class PersonServiceImpl implements PersonService {
         this.personDao = personDao;
     }
 
+
     @Override
     public int addPerson(PersonDTO personDTO) {
-        //convert ->personDTO to person
-        return personDao.insertPerson(personDTO);
+        return personDao.insertPerson(convertDTO(personDTO));
     }
 
     @Override
-    public List<PersonDTO> showList() {
+    public List<Person> showList() {
         return personDao.showList();
     }
 
     @Override
-    public Optional<PersonDTO> selectPersonById(UUID id) {
+    public Optional<Person> selectPersonById (UUID id) {
         return personDao.selectPersonById(id);
     }
 
     @Override
-    public int deletePersonById(UUID id) {
+    public boolean deletePersonById (UUID id) throws UserNotFoundException {
         return personDao.deletePersonById(id);
     }
 
     @Override
-    public int updatePersonById(UUID id, PersonDTO personDTO) {
-        return personDao.updatePersonById(id, personDTO);
+    public boolean updatePersonById (UUID id, PersonDTO personDTO) {
+        return personDao.updatePersonById(id, convertDTO(personDTO));
+    }
+
+    private Person convertDTO (PersonDTO personDTO) {
+        return new Person(null, personDTO.getName() + " converted");
     }
 
 }

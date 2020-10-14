@@ -1,5 +1,7 @@
 package org.ruslan.test.service;
 
+import org.ruslan.test.dao.UserNotFoundException;
+import org.ruslan.test.dao.model.Person;
 import org.ruslan.test.service.model.PersonDTO;
 
 import java.util.List;
@@ -10,11 +12,11 @@ public interface PersonService {
 
     int addPerson(PersonDTO personDTO);
 
-    List<PersonDTO> showList();
+    List<Person> showList();
 
-    Optional<PersonDTO> selectPersonById(UUID id);
+    Optional<Person> selectPersonById(UUID id);
 
-    int deletePersonById(UUID id);
+    boolean deletePersonById(UUID id) throws UserNotFoundException;
 
-    int updatePersonById(UUID id, PersonDTO personDTO);
+    boolean updatePersonById(UUID id, PersonDTO personDTO);
 }
