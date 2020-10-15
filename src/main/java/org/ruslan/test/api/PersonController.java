@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -22,24 +23,29 @@ public class PersonController {
     }
 
     @PostMapping
-    public void addPerson(@RequestBody @Valid PersonDTO personDTO) {
-        personService.addPerson(personDTO);
+    public boolean addPerson(@RequestBody @Valid PersonDTO personDTO) {
+        return personService.addPerson(personDTO);
     }
 
     @GetMapping
-    public List<Person> showList() {
-        return personService.showList();
+    public List<Person> getList() {
+        return personService.getList();
     }
 
-    @GetMapping(path = "/{id}")
-    public Person selectPersonById(@PathVariable("id") UUID id) {
-        return personService.selectPersonById(id)
-                .orElse(null);
+//    @GetMapping(path = "/{id}")
+//    public Person selectPersonById(@PathVariable("id") UUID id) {
+//        Optional<Person> selected = personService.selectPersonById(id);
+//        return selected.orElse(null);
+//    }
+
+    @GetMapping(path = "{id}")
+    public List<Person> selectNewPersonById(@PathVariable("id") UUID id) {
+        return personService.selectNewPersonById(id);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deletePersonById(@PathVariable("id") UUID id) {
-        personService.deletePersonById(id);
+    public boolean deletePersonById(@PathVariable("id") UUID id) {
+        return personService.deletePersonById(id);
     }
 
     @PutMapping(path = "/{id}")

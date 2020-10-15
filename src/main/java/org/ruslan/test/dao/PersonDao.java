@@ -11,11 +11,15 @@ public interface PersonDao {
 
     boolean addPerson (Person person);
 
-    List<Person> showList();
+    List<Person> getList();
 
-    Optional<Person> selectPersonById(UUID id);
+//    Optional<Person> selectPersonById(UUID id);
+
+    List<Person> selectNewPersonById(UUID id);
 
     boolean updatePersonById(UUID id, Person person);
 
     boolean deletePersonById(UUID id);
+
+
 }

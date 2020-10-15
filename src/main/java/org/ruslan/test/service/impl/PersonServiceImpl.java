@@ -28,13 +28,18 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> showList() {
-        return personDao.showList();
+    public List<Person> getList() {
+        return personDao.getList();
     }
 
     @Override
     public Optional<Person> selectPersonById (UUID id) {
         return personDao.selectPersonById(id);
+    }
+
+    @Override
+    public List<Person> selectNewPersonById(UUID id) {
+        return personDao.selectNewPersonById(id);
     }
 
     @Override

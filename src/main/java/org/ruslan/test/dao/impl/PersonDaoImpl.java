@@ -5,6 +5,7 @@ import org.ruslan.test.dao.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
@@ -17,12 +18,11 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<Person> showList() {
+    public List<Person> getList() {
         return DB;
     }
 
-    @Override
-    public Optional<Person> selectPersonById(UUID id) {
+    private Optional<Person> selectPersonById(UUID id) {
         return DB.stream()
                 .filter(person -> person.getId().equals(id))
                 .findFirst();
@@ -30,15 +30,17 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean updatePersonById(UUID id, Person person) {
-        return selectPersonById(id).map(p -> {
-            int indexOfPersonToDelete = DB.indexOf(p);
-            if (indexOfPersonToDelete >= 0) {
-                DB.set(indexOfPersonToDelete, new Person(id, person.getName()));
-                return true;
-            }
-            return false;
-        })
-                .orElse(false);
+        return selectPersonById(id)
+                .map(p -> update(id, person, p))
+                .isPresent();
+    }
+
+    private boolean update (UUID id, Person person, Person p) {
+        if (DB.indexOf(p) != -1) {
+            DB.set(DB.indexOf(p), new Person(id, person.getName()));
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -49,6 +51,13 @@ public class PersonDaoImpl implements PersonDao {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<Person> selectNewPersonById(UUID id) {
+        return DB.stream()
+                .filter(p-> p.getId().equals(id))
+                .collect(Collectors.toList());
     }
 
 }

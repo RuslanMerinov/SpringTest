@@ -11,9 +11,11 @@ public interface PersonService {
 
     boolean addPerson(PersonDTO personDTO);
 
-    List<Person> showList();
+    List<Person> getList();
 
-    Optional<Person> selectPersonById(UUID id);
+//    Optional<Person> selectPersonById(UUID id);
+
+    List<Person> selectNewPersonById(UUID id);
 
     boolean deletePersonById(UUID id);
 
